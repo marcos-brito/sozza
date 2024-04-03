@@ -38,8 +38,8 @@ func NewParser(mapping Mapping) *Parser {
 func (p *Parser) parse() ([]Table, error) {
 	tables := []Table{}
 
-	for tableName, insertions := range p.mapping {
-		for idx, insertion := range insertions {
+	for tableName, item := range p.mapping {
+		for idx, insertion := range item.Insertions {
 			fields := map[string]Insertable{}
 
 			for field, value := range insertion {

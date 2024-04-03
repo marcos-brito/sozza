@@ -8,7 +8,11 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type Mapping map[string][]map[string]string
+type Mapping = map[string]Item
+
+type Item struct {
+	Insertions  []map[string]string `yaml:"insertions"`
+}
 
 func ReadMappingFromFile(path string) (*Mapping, error) {
 	file, err := os.Open(path)
@@ -33,7 +37,7 @@ func ReadMappingFromFile(path string) (*Mapping, error) {
 
 func ReadMapping(content []byte) (*Mapping, error) {
 	m := &Mapping{}
-	err := yaml.Unmarshal(content, &m)
+	err := yaml.Unmarshal(content, m)
 
 	if err != nil {
 		return nil, fmt.Errorf("Could not unmarshal the mapping: %s", err)

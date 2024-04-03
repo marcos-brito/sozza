@@ -12,24 +12,27 @@ func TestParsingMappingFile(t *testing.T) {
 	}{
 		{
 			`table1:
-                - field1: csv1
-                  field2: csv2
-                  field3: csv3
-                - field1: csv1
-                  field2: csv2
-                  field3: csv3
+                insertions:
+                    - field1: csv1
+                      field2: csv2
+                      field3: csv3
+                    - field1: csv1
+                      field2: csv2
+                      field3: csv3
             `,
 			&Mapping{
-				"table1": []map[string]string{
-					{
-						"field1": "csv1",
-						"field2": "csv2",
-						"field3": "csv3",
-					},
-					{
-						"field1": "csv1",
-						"field2": "csv2",
-						"field3": "csv3",
+				"table1": Item{
+					Insertions: []map[string]string{
+						{
+							"field1": "csv1",
+							"field2": "csv2",
+							"field3": "csv3",
+						},
+						{
+							"field1": "csv1",
+							"field2": "csv2",
+							"field3": "csv3",
+						},
 					},
 				},
 			},
