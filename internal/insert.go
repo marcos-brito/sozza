@@ -157,6 +157,7 @@ func (i *Inserter) Insert(numberOfLines int) error {
 			)
 		}
 
+		i.insertionReferences = map[string][]int64{}
 		line++
 	}
 	err = transaction.Commit()
