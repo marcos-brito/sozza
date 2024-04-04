@@ -27,5 +27,27 @@ func Create(ctx *cli.Context) error {
 }
 
 func Insert(ctx *cli.Context) error {
+	db := connector.PickConnector(ctx.String("dbname")).Connect(ctx.String("url"))
+
+	mapping, err := ReadMappingFromFile(ctx.String("mapping"))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	inserter, err := newInserter(db, mapping, ctx.String("csv"))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	numberOfLines, err := strconv.Atoi(ctx.String("number-of-lines"))
+	if err != nil {
+		log.Fatalf("Invalid number of lines %s", ctx.String("number-of-lines"))
+	}
+
+	err = inserter.Insert(numberOfLines)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	return nil
 }
